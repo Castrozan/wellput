@@ -20,7 +20,7 @@ Wellput is a **hook and a writing skill** that make end-of-turn replies easier t
 
 > Built for **free sessions**: high-stakes discovery and delivery, not predefined workflows.
 
-The point isn’t just _shorter replies_. It’s putting the effort of making work understandable **on the agent**, so you can stay across dozens of sessions without giving each one your afternoon.
+The point isn’t just _shorter replies_. It’s putting the effort of making work understandable **on the agent**, so you can work across dozens of sessions without giving each one them your full limited attention time.
 
 ![Live Claude Code session showing Wellput rejecting and repairing a reply](https://raw.githubusercontent.com/Castrozan/wellput/a4a21aff55e2cf4cdd36c76d2e9cf248538f52e3/wellput-fluid-demo.gif)
 
