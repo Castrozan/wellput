@@ -48,9 +48,7 @@ Review and trust the hooks when prompted, then start a new session.
 
 ## How it works
 
-**The agent has the context. You shouldn’t have to rebuild it.**
-
-The end-of-turn reply may be all you read. It should make the work understandable without sending you back through the conversation.
+The end-of-turn reply is all you read. It should make the work understandable without sending you back through the conversation.
 
 **The skill guides the writing. The hook enforces the format.**
 
@@ -108,15 +106,13 @@ Use tables, diagrams, and code when they save the reader work. Visuals and fence
 
 ## Configure
 
-**No configuration needed to start.** Bundled defaults apply until you provide your own.
-
 | #   | When                                | Configuration file                                  |
 | --- | ----------------------------------- | --------------------------------------------------- |
 | 1   | `WELLPUT_CONFIG` is set             | Its absolute path; overrides the default locations. |
 | 2   | Otherwise, `XDG_CONFIG_HOME` is set | `$XDG_CONFIG_HOME/wellput/config.json`              |
 | 3   | Otherwise                           | `~/.config/wellput/config.json`                     |
 
-Copy `wellput.json` to the applicable path, then change budgets, labels, checks, or repair feedback. Use a complete file; configurations aren’t merged. Restart the session after editing.
+Copy `wellput.json` to the applicable path, then change budgets, labels, checks, or repair feedback.
 
 ## License
 
