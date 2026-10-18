@@ -13,7 +13,9 @@ from reply_rule_catalog import template_violations_in_reply
 
 @pytest.fixture
 def configuration_document():
-    return json.loads((REPLY_RULE_MODULE_DIRECTORY.parents[1] / "wellput.json").read_text())
+    return json.loads(
+        (REPLY_RULE_MODULE_DIRECTORY.parents[1] / "wellput.json").read_text()
+    )
 
 
 def test_configured_confirmation_budget_changes_the_verdict(configuration_document):
@@ -135,4 +137,26 @@ def test_unknown_restrictions_are_rejected(configuration_document):
     configuration_document["restrictions"][0]["name"] = "misspelled_rule"
 
     with pytest.raises(ValueError, match="unknown reply restriction"):
+        ReplyFormatConfiguration(configuration_document)
+
+
+def test_configured_table_row_limit_changes_the_verdict(configuration_document):
+    configuration_document["tables"]["maximum_rows"] = 1
+    configuration = ReplyFormatConfiguration(configuration_document)
+    table = "| Name | Value |\n| --- | --- |\n| first | value |"
+
+    assert template_violations_in_reply(table, configuration=configuration) == []
+    assert (
+        "1-row ceiling"
+        in template_violations_in_reply(
+            table + "\n| second | value |", configuration=configuration
+        )[0]
+    )
+
+
+@pytest.mark.parametrize("value", [-1, True, "5"])
+def test_invalid_table_limits_are_rejected(configuration_document, value):
+    configuration_document["tables"]["maximum_rows"] = value
+
+    with pytest.raises(ValueError, match="nonnegative integer"):
         ReplyFormatConfiguration(configuration_document)
