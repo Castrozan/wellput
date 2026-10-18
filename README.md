@@ -70,11 +70,13 @@ Consistent order and bold labels make answers easy to find. Separate word budget
 
 **Sometimes the clearest paragraph is a diff.** Use tables, diagrams, and code when they save the reader work. Visuals and fenced code don’t count toward the prose budget. The goal is understanding, not just fewer words.
 
-## Small rules, less friction
+### Other rules
 
-Numbered rows in agent tables let you reply “about #2.” Bare URLs and paths support keyboard navigation. PR and MR links take you straight to the work.
-
-Start with substance, not reactions or narration. The default also excludes em and en dashes outside quotations, a configurable style preference.
+- Number table rows so you can reply “about #2.”
+- Use bare URLs and paths for keyboard navigation.
+- Include links when mentioning PRs or MRs.
+- Start with the answer. Skip reactions and narration.
+- No em or en dashes outside quotes (configurable).
 
 ## Configure
 
