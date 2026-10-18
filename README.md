@@ -52,9 +52,7 @@ Review and trust the hooks when prompted, then start a new session.
 
 Wellput assumes the end-of-turn reply may be all you read. It should make the work understandable without sending you back through the conversation.
 
-**The skill guides the writing. The hook enforces the format.** `SessionStart` introduces the rules once; `Stop` checks the reply and requests repairs. You shouldn’t have to keep correcting how the agent communicates.
-
-The work stays open-ended. The handoff to you doesn’t.
+**The skill guides the writing. The hook enforces the format.** `SessionStart` introduces the rules once; `Stop` checks the reply and requests repairs.
 
 ## The reply format
 
