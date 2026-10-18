@@ -16,7 +16,7 @@
 
 <!-- markdownlint-enable MD033 MD041 -->
 
-Wellput is a **hook and a writing skill** that make end-of-turn replies easier to **understand and act on**. Recognize the session, see what got done, know whether you’re needed, and move on without rereading the conversation.
+Wellput is a **hook and a writing skill** that make end-of-turn replies easier to **understand and act on**. Recognize the session, see what got done, know whether you’re needed, and move on without rereading the full conversation.
 
 > Built for **free sessions**: high-stakes discovery and delivery, not predefined workflows.
 
