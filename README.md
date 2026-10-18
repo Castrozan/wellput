@@ -84,8 +84,6 @@ To change budgets, labels, checks, or repair feedback, copy `wellput.json` to `~
 
 For a different location, set `WELLPUT_CONFIG` to an absolute path. It takes precedence over the default locations.
 
-Use a complete config; files aren’t merged. Invalid settings produce an error. Restart the session after editing.
-
 ## License
 
 Wellput is MIT licensed. Bundled Markdown dependencies retain their own licenses under `hooks/vendor/licenses`.
