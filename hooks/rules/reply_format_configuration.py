@@ -1,5 +1,4 @@
-import json
-import os
+from wellput_configuration import load_configuration_document
 import re
 
 from reply_configuration_validation import (
@@ -109,7 +108,5 @@ class ReplyFormatConfiguration:
         return self.restrictions[restriction]["message"].format(**values)
 
 
-with open(
-    os.path.join(os.path.dirname(__file__), "reply-formats.json"), encoding="utf-8"
-) as configuration_file:
-    REPLY_FORMAT_CONFIGURATION = ReplyFormatConfiguration(json.load(configuration_file))
+REPLY_FORMAT_DOCUMENT = load_configuration_document()
+REPLY_FORMAT_CONFIGURATION = ReplyFormatConfiguration(REPLY_FORMAT_DOCUMENT)

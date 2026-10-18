@@ -13,7 +13,7 @@ from reply_rule_catalog import template_violations_in_reply
 
 @pytest.fixture
 def configuration_document():
-    return json.loads((REPLY_RULE_MODULE_DIRECTORY / "reply-formats.json").read_text())
+    return json.loads((REPLY_RULE_MODULE_DIRECTORY.parents[1] / "wellput.json").read_text())
 
 
 def test_configured_confirmation_budget_changes_the_verdict(configuration_document):

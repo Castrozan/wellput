@@ -1,13 +1,4 @@
-import json
-from pathlib import Path
-
-REPO_ROOT = Path(__file__).resolve().parent
-
-
 REPLY_FORMAT_PLACEHOLDER = "{{reply_format}}"
-REPLY_FORMAT_CONFIGURATION_PATH = Path(
-    "rules/reply-formats.json"
-)
 
 
 def expand_reply_format_instructions(
@@ -16,9 +7,9 @@ def expand_reply_format_instructions(
     if REPLY_FORMAT_PLACEHOLDER not in text:
         return text
     if configuration is None:
-        configuration = json.loads(
-            (REPO_ROOT / REPLY_FORMAT_CONFIGURATION_PATH).read_text()
-        )
+        from reply_format_configuration import REPLY_FORMAT_DOCUMENT
+
+        configuration = REPLY_FORMAT_DOCUMENT
     labels = configuration["formats"]["labeled_reply"]["labels"]
     emphasis = configuration["syntax"]["label_emphasis_marker"]
     values = {
