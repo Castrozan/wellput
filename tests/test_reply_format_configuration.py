@@ -77,12 +77,12 @@ def test_configured_label_names_and_budgets_are_used(configuration_document):
         "Result:"
         in template_violations_in_reply("missing label", configuration=configuration)[0]
     )
-    assert (
-        "2-word budget and its 1-word grace"
-        in template_violations_in_reply(
-            "**Result:** one two three", configuration=configuration
-        )[0]
-    )
+    assert template_violations_in_reply(
+        "**Result:** one two three four", configuration=configuration
+    ) == [
+        "spends 4 words of content on the Result: block, past its 2-word budget and "
+        "its 1-word grace"
+    ]
 
 
 def test_configured_patterns_and_active_restrictions_are_used(configuration_document):

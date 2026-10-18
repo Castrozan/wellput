@@ -5,7 +5,7 @@ import pytest
 
 from human_facing_reply_test_support import (
     labeled_reply_of,
-    reply_with_label_word_counts,
+    reply_with_label_content_word_counts,
     template_violations_in_reply,
 )
 
@@ -88,7 +88,7 @@ def test_separate_markdown_lists_keep_separate_budgets(separator):
 
 @pytest.mark.parametrize("order", list(itertools.permutations(range(3))))
 def test_long_reply_requires_the_configured_label_order(order):
-    blocks = reply_with_label_word_counts(20, 20, 10).split("\n\n")
+    blocks = reply_with_label_content_word_counts(20, 20, 10).split("\n\n")
     reply = "evidence " * 80 + "\n\n" + "\n\n".join(blocks[index] for index in order)
 
     violations = template_violations_in_reply(reply)
@@ -97,13 +97,13 @@ def test_long_reply_requires_the_configured_label_order(order):
 
 
 def test_long_reply_rejects_duplicate_labels_within_the_word_budgets():
-    reply = "evidence " * 80 + "\n\n" + reply_with_label_word_counts(20, 20, 10)
+    reply = "evidence " * 80 + "\n\n" + reply_with_label_content_word_counts(20, 20, 10)
 
     assert template_violations_in_reply(reply + "\n\n**Done:** extra")
 
 
 def test_unclosed_bold_markup_does_not_emphasize_a_label():
-    reply = "evidence " * 80 + "\n\n" + reply_with_label_word_counts(20, 20, 10)
+    reply = "evidence " * 80 + "\n\n" + reply_with_label_content_word_counts(20, 20, 10)
 
     violations = template_violations_in_reply(reply.replace(":**", ":"))
 
@@ -111,7 +111,7 @@ def test_unclosed_bold_markup_does_not_emphasize_a_label():
 
 
 def test_alternative_commonmark_strong_delimiters_emphasize_labels():
-    reply = "evidence " * 80 + "\n\n" + reply_with_label_word_counts(20, 20, 10)
+    reply = "evidence " * 80 + "\n\n" + reply_with_label_content_word_counts(20, 20, 10)
 
     assert template_violations_in_reply(reply.replace("**", "__")) == []
 

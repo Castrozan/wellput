@@ -60,6 +60,8 @@ def test_session_start_supplies_contract_without_selected_skill_bootstrap(plugin
         "100 prose words",
         "within 5 items",
         "within 5 data rows",
+        "label content, excluding headings",
+        "combined label grace: 10 words",
         "**Done:**",
         str(plugin_root / "skills/wellput/SKILL.md"),
     ):

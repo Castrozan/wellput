@@ -13,6 +13,8 @@ def body_and_label_word_counts(document, counted_lines):
             open_label = labels_by_line[index]
             per_label_words.setdefault(open_label, 0)
         word_count = len(document.source_lines[index].split())
+        if index in labels_by_line:
+            word_count -= len(labels_by_line[index].split())
         if open_label is None:
             body_words += word_count
         else:

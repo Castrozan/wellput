@@ -20,10 +20,11 @@ def labeled_reply_of(body_words: int) -> str:
     return f"{body}\n\n{LABELED_REPLY}"
 
 
-def reply_with_label_word_counts(session: int, done: int, next_block: int) -> str:
+def reply_with_label_content_word_counts(
+    session: int, done: int, next_block: int
+) -> str:
     def block(label: str, words: int) -> str:
-        label_words = len(label.split())
-        filler = " ".join(["evidence"] * max(words - label_words, 0))
+        filler = " ".join(["evidence"] * words)
         return f"**{label}** {filler}".strip()
 
     return "\n\n".join(
