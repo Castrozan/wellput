@@ -80,11 +80,11 @@ Consistent order and bold labels make answers easy to find. Separate word budget
 
 ## Configure
 
-**No configuration needed to start.** Bundled defaults apply until you provide your own.
+Wellput uses bundled defaults. To change budgets, labels, checks, or repair feedback:
 
-To change budgets, labels, checks, or repair feedback, copy `wellput.json` to `~/.config/wellput/config.json`, or `$XDG_CONFIG_HOME/wellput/config.json` when using XDG.
-
-For a different location, set `WELLPUT_CONFIG` to an absolute path. It takes precedence over the default locations.
+- Copy `wellput.json` to `~/.config/wellput/config.json`.
+- With XDG, use `$XDG_CONFIG_HOME/wellput/config.json`.
+- For another location, set `WELLPUT_CONFIG` to an absolute path. It overrides the default locations.
 
 ## License
 
