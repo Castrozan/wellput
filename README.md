@@ -24,7 +24,7 @@ The point isn’t just _shorter replies_. It’s putting the effort of making wo
 
 ![Live Claude Code session showing Wellput rejecting and repairing a reply](https://raw.githubusercontent.com/Castrozan/wellput/a4a21aff55e2cf4cdd36c76d2e9cf248538f52e3/wellput-fluid-demo.gif)
 
-[Watch the narrated tour](https://github.com/user-attachments/assets/c1aab86a-405e-44d0-adca-d3c8d6eff208)
+[Watch the narrated tour](https://github.com/user-attachments/assets/391e5c77-8c97-44d3-90bc-8e4e62f25953)
 
 ## Install
 
