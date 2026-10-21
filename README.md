@@ -12,6 +12,8 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-6de2c7)](LICENSE)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-e6b76a)](#install)
 
+**English** · [Português (Brasil)](README.pt-BR.md)
+
 </div>
 
 <!-- markdownlint-enable MD033 MD041 -->
