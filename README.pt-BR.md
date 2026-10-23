@@ -99,12 +99,12 @@ Use tabelas, diagramas e código quando eles pouparem trabalho de quem lê. Visu
 
 ### Outras regras
 
-| #   | Verificação      | O que você ganha                                                                         |
-| --- | ---------------- | ---------------------------------------------------------------------------------------- |
-| 1   | Listas e tabelas | No máximo 5 itens ou linhas de dados; linhas numeradas para respostas como “sobre o #2”. |
-| 2   | Navegação        | Links diretos para os PRs e MRs citados.                                                 |
-| 3   | Abertura         | A resposta primeiro, sem reações nem narração.                                           |
-| 4   | Pontuação        | Sem travessões nem meias-riscas fora de citações; configurável.                          |
+| #   | Verificação      | O que você ganha                                                                                                           |
+| --- | ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Listas e tabelas | No máximo 5 itens ou linhas de dados, a menos que você peça uma tabela; linhas numeradas para respostas como “sobre o #2”. |
+| 2   | Navegação        | Links diretos para os PRs e MRs citados.                                                                                   |
+| 3   | Abertura         | A resposta primeiro, sem reações nem narração.                                                                             |
+| 4   | Pontuação        | Sem travessões nem meias-riscas fora de citações; configurável.                                                            |
 
 ## Configuração
 
