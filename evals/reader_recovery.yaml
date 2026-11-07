@@ -158,6 +158,24 @@ tests:
       llm_judge:
         - "Explains that the release check runs the same reader-recovery tests in all three named harnesses and blocks release when any harness is below its accepted score, rather than merely repeating or synonymizing the opaque noun stack."
 
+  - name: recovery_restates_a_dense_answer_plainer_on_request
+    failure_mode: concept_density
+    skill_path: skills/wellput/SKILL.md
+    extra_skill_paths:
+      - skills/wellput/references/interactive-communication.md
+    prompt: |
+      Your previous answer was: "In WAL mode, writers append frames to the -wal file while each reader pins the
+      wal-index mxFrame it saw at transaction start, so readers never block writers; a checkpoint copies committed frames
+      back into the database file, but it cannot copy past the oldest open reader's end mark and the WAL can only restart
+      from the beginning once no reader is using it, so one long-lived read transaction lets the WAL grow without bound."
+
+      Say that again, plainer.
+    model: haiku
+    no_tools: true
+    assertions:
+      llm_judge:
+        - "Restates the same mechanism in plain sentences: writers add changes to a separate WAL file instead of the database file; each reader keeps reading the snapshot it started with, so readers never block writers; a checkpoint copies committed changes back into the database file; a still-open older reader stops the checkpoint from finishing and the WAL from starting over, so one long-running read lets the WAL keep growing. Keeps the term checkpoint, may drop internal names such as wal-index and mxFrame without misstating them, adds no facts absent from the quoted answer such as pragmas, size thresholds, or recommended fixes, does not merely swap synonyms inside the same dense sentence, and stays about as short as the original rather than expanding into a tutorial."
+
   - name: recovery_honors_a_tldr_size_constraint
     failure_mode: verbosity
     skill_path: skills/wellput/SKILL.md

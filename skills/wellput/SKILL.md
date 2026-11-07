@@ -31,8 +31,10 @@ wrapping paragraphs in table rows.
 ### Confusion recovery
 
 When the explanation is unclear, answer the unresolved question with exact actors and relationships using the reader's
-terms; changing vocabulary alone may preserve the confusion. Distinguish anger about an outcome from confusion about an
-explanation; ask only when missing context changes the answer.
+terms; changing vocabulary alone may preserve the confusion. When asked only to restate it plainer, replace jargon with
+everyday words at about the same length, keeping the central term, every fact and qualifier, and adding no causes,
+fixes, or analogies. Distinguish anger about an outcome from confusion about an explanation; ask only when missing
+context changes the answer.
 
 ### Human register
 
