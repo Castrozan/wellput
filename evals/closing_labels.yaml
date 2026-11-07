@@ -13,7 +13,7 @@ tests:
       - Merged router commit a2b23c2, which sends /billing traffic to the new billing service.
       - "Prerelease filter": a patch so auto-release skips versions ending in -rc. Written, not opened as a merge request.
       - "Delivery-race fix": a patch so two deploy jobs stop overwriting each other's build artifact. Written, not opened.
-      - Four review notes from 2026-08-03 are still unanswered; one is from John.
+      - Four review notes from 2026-08-03 are still unanswered; one is from Mia.
     model: haiku
     no_tools: true
     assertions:
@@ -30,15 +30,15 @@ tests:
       reply you would send me now.
 
       Your working notes, which I have not read:
-      - Q43 / AP-10930: Klaus and Dunbar need the expected monthly API quota number for their budget request.
-      - EX40: the export job times out for files over 2 GB; I promised them a fix date.
-      - Q46: legal asked whether customer logs leave the EU.
-      - AP-10732 / GD21: Tiago needs the staging API key.
+      - Q4 / OPS-210: Priya and Sam need the expected monthly API quota number for their budget request.
+      - EX12: the export job times out for files over 2 GB; I promised them a fix date.
+      - Q9: legal asked whether customer logs leave the EU.
+      - OPS-118 / GD7: Leo needs the staging API key.
     model: haiku
     no_tools: true
     assertions:
       llm_judge:
-        - "Every obligation is explained somewhere in the reply by its person and content, for example sending Tiago the staging API key or giving Klaus and Dunbar a monthly quota number. A tracker code such as Q43, EX40, Q46, AP-10930, AP-10732, or GD21 used anywhere in the reply, including the Done and Next lines, is one the reply explains; a code it never explains fails. Adds no facts absent from the notes, though it may resolve a date from today's date."
+        - "Every obligation is explained somewhere in the reply by its person and content, for example sending Leo the staging API key or giving Priya and Sam a monthly quota number. A tracker code such as Q4, EX12, Q9, OPS-210, OPS-118, or GD7 used anywhere in the reply, including the Done and Next lines, is one the reply explains; a code it never explains fails. Adds no facts absent from the notes, though it may resolve a date from today's date."
 
   - name: closing_labels_explain_the_next_step_in_the_readers_words
     failure_mode: closing_labels
@@ -108,7 +108,7 @@ tests:
       reply you would send me now.
 
       Your working notes, which I have not read:
-      - Root cause: MunicipioService.java:194 strips leading zeros from one city code but not the other, so code 0123
+      - Root cause: CityLookupService.java:194 strips leading zeros from one city code but not the other, so code 0123
         never matches 123.
       - A bypass flag already gets requests through on staging.
       - Options: fix line 194 in a merge request, or keep recording through the bypass for now.
