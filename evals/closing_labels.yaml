@@ -1,0 +1,119 @@
+tests:
+  - name: closing_labels_describe_unopened_work_by_what_it_does
+    failure_mode: closing_labels
+    skill_path: skills/wellput/SKILL.md
+    extra_skill_paths:
+      - skills/wellput/references/interactive-communication.md
+    prompt: |
+      Earlier in this session I asked you to cut the release and tell me what is left. This is the end of your turn;
+      write the reply you would send me now.
+
+      Your working notes, which I have not read:
+      - Tagged v2.33.0 and published it to the marketplace.
+      - Merged router commit a2b23c2, which sends /billing traffic to the new billing service.
+      - "Prerelease filter": a patch so auto-release skips versions ending in -rc. Written, not opened as a merge request.
+      - "Delivery-race fix": a patch so two deploy jobs stop overwriting each other's build artifact. Written, not opened.
+      - Four review notes from 2026-08-03 are still unanswered; one is from John.
+    model: haiku
+    no_tools: true
+    assertions:
+      llm_judge:
+        - "Every item named in the Done or Next line is either the user's own term or is explained by what it does somewhere in the same reply, for example auto-release skipping -rc versions or two deploy jobs overwriting each other's artifact. A label such as 'prerelease filter', 'delivery-race fix', or a commit hash that the reply never explains fails. Next mentions the patches not yet opened as merge requests and the four unanswered review notes. Adds no facts absent from the notes."
+
+  - name: closing_labels_name_obligations_by_person_and_content
+    failure_mode: closing_labels
+    skill_path: skills/wellput/SKILL.md
+    extra_skill_paths:
+      - skills/wellput/references/interactive-communication.md
+    prompt: |
+      Earlier in this session I asked what I still owe people before Friday. This is the end of your turn; write the
+      reply you would send me now.
+
+      Your working notes, which I have not read:
+      - Q43 / AP-10930: Klaus and Dunbar need the expected monthly API quota number for their budget request.
+      - EX40: the export job times out for files over 2 GB; I promised them a fix date.
+      - Q46: legal asked whether customer logs leave the EU.
+      - AP-10732 / GD21: Tiago needs the staging API key.
+    model: haiku
+    no_tools: true
+    assertions:
+      llm_judge:
+        - "Every obligation is explained somewhere in the reply by its person and content, for example sending Tiago the staging API key or giving Klaus and Dunbar a monthly quota number. A tracker code such as Q43, EX40, Q46, AP-10930, AP-10732, or GD21 used anywhere in the reply, including the Done and Next lines, is one the reply explains; a code it never explains fails. Adds no facts absent from the notes, though it may resolve a date from today's date."
+
+  - name: closing_labels_explain_the_next_step_in_the_readers_words
+    failure_mode: closing_labels
+    skill_path: skills/wellput/SKILL.md
+    extra_skill_paths:
+      - skills/wellput/references/interactive-communication.md
+    prompt: |
+      Earlier in this session I asked you to find out why I keep getting confused by your replies. This is the end of
+      your turn; write the reply you would send me now.
+
+      Your working notes, which I have not read:
+      - Scanned 1,733 candidate user turns from my sessions on two machines; kept 144 real confusion cases.
+      - Top cause, 36 cases: I paste a sentence from the closing Done or Next line of your reply back and ask "what?".
+        Those lines are capped near 20 words and fill up with internal names.
+      - Plan: turn real cases into eval cases for the label instructions in wellput.json, show they fail today, then
+        change those instructions until they pass.
+    model: haiku
+    no_tools: true
+    assertions:
+      llm_judge:
+        - "States the finding plainly: the most common confusion is the user quoting a closing Done or Next line back and asking what it means, because those short lines fill up with internal names. Next explains the plan in words the user already knows: turning the real examples into evals or tests, confirming the current rules fail them, then changing the rules for how those closing lines are written. It does not leave what is being changed as unexplained shorthand such as 'label instructions', 'label rules', 'quoted-back lines', or 'wellput.json' alone. Preserves the 144 cases and the 36-case count."
+
+  - name: closing_labels_keep_names_the_reader_introduced
+    failure_mode: control
+    skill_path: skills/wellput/SKILL.md
+    extra_skill_paths:
+      - skills/wellput/references/interactive-communication.md
+    prompt: |
+      Earlier in this session I said: the checkout-e2e job keeps flaking, fix it. This is the end of your turn; write
+      the reply you would send me now.
+
+      Your working notes:
+      - checkout-e2e failed 3 of 10 runs because the test clicked Pay before the price loaded.
+      - Added a wait for the price element; 20 of 20 runs passed on branch fix/checkout-wait.
+      - Opened PR #412; it waits for review.
+    model: haiku
+    no_tools: true
+    assertions:
+      llm_judge:
+        - "Uses the name checkout-e2e directly without redefining it, since the user introduced it. States the cause (the test clicked Pay before the price loaded) and the 20 of 20 result, and Next names review of PR #412 as the remaining work. Does not pad the reply with definitions of terms the user already used."
+
+  - name: closing_labels_say_what_a_build_artifact_means
+    failure_mode: closing_labels
+    skill_path: skills/wellput/SKILL.md
+    extra_skill_paths:
+      - skills/wellput/references/interactive-communication.md
+    prompt: |
+      Earlier in this session I asked you to rebuild my desktop with the low-latency audio change. This is the end of
+      your turn; write the reply you would send me now.
+
+      Your working notes, which I have not read:
+      - Built the new system: toplevel /nix/store/89d297xi...-nixos-system-chise, with pipewire-lowlatency enabled.
+      - Not switched to it yet: activating it restarts the shared terminal server, which needs my approval.
+    model: haiku
+    no_tools: true
+    assertions:
+      llm_judge:
+        - "The reply says in plain words that the new system with the low-latency audio change is built but not active yet, and that making it active needs the user's approval because it restarts the shared terminal server. A store path, hash, or the word 'toplevel' in the Done or Next line is explained in the same reply. Adds no facts absent from the notes."
+
+  - name: closing_labels_state_the_cause_not_that_one_was_found
+    failure_mode: closing_labels
+    skill_path: skills/wellput/SKILL.md
+    extra_skill_paths:
+      - skills/wellput/references/interactive-communication.md
+    prompt: |
+      Earlier in this session I asked why the city lookup fails in staging. This is the end of your turn; write the
+      reply you would send me now.
+
+      Your working notes, which I have not read:
+      - Root cause: MunicipioService.java:194 strips leading zeros from one city code but not the other, so code 0123
+        never matches 123.
+      - A bypass flag already gets requests through on staging.
+      - Options: fix line 194 in a merge request, or keep recording through the bypass for now.
+    model: haiku
+    no_tools: true
+    assertions:
+      llm_judge:
+        - "The reply, including its Done line, states the actual cause in plain words: one city code loses its leading zeros and the other does not, so they never match. A Done line that only says the root cause was found, without saying what it is, fails. Next presents the two options plainly: fix the comparison in a merge request, or keep using the bypass for now. A file and line reference may appear only beside that description."
