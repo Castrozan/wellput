@@ -1,32 +1,8 @@
 import json
-import os
 import shutil
 import stat
-import subprocess
-import sys
 
 import pytest
-
-
-@pytest.fixture
-def invoke(plugin_root, tmp_path):
-    def invoke_hook(payload, root=plugin_root, environment=None):
-        hook_environment = dict(os.environ, XDG_CONFIG_HOME=str(tmp_path / "config"))
-        hook_environment.pop("WELLPUT_CONFIG", None)
-        hook_environment.update(environment or {})
-        result = subprocess.run(
-            [sys.executable, "-S", str(root / "hooks/reply_hook.py")],
-            input=json.dumps(payload),
-            capture_output=True,
-            text=True,
-            timeout=5,
-            cwd="/",
-            env=hook_environment,
-            check=True,
-        )
-        return json.loads(result.stdout)
-
-    return invoke_hook
 
 
 def copy_plugin(plugin_root, destination):
@@ -49,7 +25,9 @@ def test_session_events_render_the_current_contract(source, invoke, plugin_root)
 
 
 @pytest.mark.parametrize("source", ["startup", "resume", "compact"])
-def test_every_session_event_carries_the_skill_policy_itself(source, invoke, plugin_root):
+def test_every_session_event_carries_the_skill_policy_itself(
+    source, invoke, plugin_root
+):
     output = invoke({"hook_event_name": "SessionStart", "source": source})
     context = output["hookSpecificOutput"]["additionalContext"]
     skill = (plugin_root / "skills/wellput/SKILL.md").read_text(encoding="utf-8")

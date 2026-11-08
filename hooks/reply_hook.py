@@ -21,23 +21,27 @@ def session_instructions():
     text = expand_reply_format_instructions(policy.read_text(encoding="utf-8"))
     linked = re.sub(
         r"\[([^\]]+)\]\(([^)]+)\)",
-        lambda match: f"{match[1]} ({(policy.parent / match[2].split('#')[0]).resolve()})",
+        lambda match: (
+            f"{match[1]} ({(policy.parent / match[2].split('#')[0]).resolve()})"
+        ),
         text,
     )
     return f"{linked.rstrip()}\n\n{skill_body()}\n"
 
 
 def reply_violations(payload):
+    from reply_relayed_output import reply_with_relayed_output_fenced
     from reply_rule_catalog import template_violations_in_reply
-    from transcript import final_turn_request_and_reply
+    from transcript import final_turn
 
     reply = payload.get("reply_text") or payload.get("last_assistant_message")
     if reply and not template_violations_in_reply(reply):
         return []
-    user_request, reply = final_turn_request_and_reply(payload)
-    if not reply:
+    turn = final_turn(payload)
+    if not turn.reply:
         return []
-    return template_violations_in_reply(reply, user_request=user_request)
+    reviewed = reply_with_relayed_output_fenced(turn.reply, turn.tool_outputs)
+    return template_violations_in_reply(reviewed, user_request=turn.request)
 
 
 def stop_decision(payload):

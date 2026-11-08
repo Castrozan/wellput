@@ -1,5 +1,6 @@
 import json
 import os
+from dataclasses import dataclass, field
 
 
 def _text_from_content_blocks(content, accepted_block_types):
@@ -58,45 +59,74 @@ def _is_hook_feedback(message_text):
     return message_text.startswith(("Stop hook feedback:", "<hook_prompt"))
 
 
-def _updated_transcript_texts(
-    role, message_text, current_turn_user_request, final_reply_text
-):
-    if role == "user":
-        final_reply_text = ""
-        if message_text and not _is_hook_feedback(message_text):
-            current_turn_user_request = message_text
-    elif role == "assistant" and message_text:
-        final_reply_text = message_text
-    return current_turn_user_request, final_reply_text
+TOOL_OUTPUT_PAYLOAD_TYPES = ("function_call_output", "custom_tool_call_output")
+TOOL_OUTPUT_TEXT_TYPES = ("input_text", "output_text", "text")
 
 
-def read_final_turn_request_and_reply(transcript_path: str) -> tuple[str, str]:
+@dataclass
+class FinalTurn:
+    request: str = ""
+    reply: str = ""
+    tool_outputs: list[str] = field(default_factory=list)
+
+    def record(self, role, message_text):
+        if role == "user":
+            self.reply = ""
+            if message_text and not _is_hook_feedback(message_text):
+                self.request = message_text
+                self.tool_outputs = []
+        elif role == "assistant" and message_text:
+            self.reply = message_text
+
+
+def _codex_tool_output(output) -> str:
+    if isinstance(output, str):
+        try:
+            decoded = json.loads(output)
+        except json.JSONDecodeError:
+            return output
+        return decoded.get("output", output) if isinstance(decoded, dict) else output
+    return text_from_content(output, TOOL_OUTPUT_TEXT_TYPES)
+
+
+def tool_outputs_in_event(transcript_event: dict) -> list[str]:
+    if transcript_event.get("type") == "response_item":
+        payload = transcript_event.get("payload", {})
+        if payload.get("type") in TOOL_OUTPUT_PAYLOAD_TYPES:
+            return [_codex_tool_output(payload.get("output", ""))]
+        return []
+    content = transcript_event.get("message", {}).get("content", "")
+    if transcript_event.get("type") != "user" or not isinstance(content, list):
+        return []
+    return [
+        text_from_content(block.get("content", ""), TOOL_OUTPUT_TEXT_TYPES)
+        for block in content
+        if isinstance(block, dict) and block.get("type") == "tool_result"
+    ]
+
+
+def read_final_turn(transcript_path: str) -> FinalTurn:
+    turn = FinalTurn()
     if not transcript_path or not os.path.exists(transcript_path):
-        return "", ""
-    current_turn_user_request = ""
-    final_reply_text = ""
+        return turn
     with open(transcript_path, encoding="utf-8") as transcript_file:
         for transcript_line in transcript_file:
             event_is_valid, transcript_event = _transcript_event_from_line(
                 transcript_line
             )
-            if not event_is_valid:
+            if not event_is_valid or not isinstance(transcript_event, dict):
                 continue
-            role, message_text = normalized_transcript_message(transcript_event)
-            current_turn_user_request, final_reply_text = _updated_transcript_texts(
-                role, message_text, current_turn_user_request, final_reply_text
-            )
-    return current_turn_user_request, final_reply_text
+            turn.record(*normalized_transcript_message(transcript_event))
+            turn.tool_outputs += tool_outputs_in_event(transcript_event)
+    return turn
 
 
-def final_turn_request_and_reply(hook_input: dict) -> tuple[str, str]:
-    transcript_request, transcript_reply = read_final_turn_request_and_reply(
-        hook_input.get("transcript_path", "")
-    )
-    user_request_text = hook_input.get("user_request_text", "") or transcript_request
-    reply_text = (
+def final_turn(hook_input: dict) -> FinalTurn:
+    turn = read_final_turn(hook_input.get("transcript_path", ""))
+    request = hook_input.get("user_request_text", "") or turn.request
+    reply = (
         hook_input.get("reply_text", "")
         or hook_input.get("last_assistant_message", "")
-        or transcript_reply
+        or turn.reply
     )
-    return user_request_text.strip(), reply_text.strip()
+    return FinalTurn(request.strip(), reply.strip(), turn.tool_outputs)
