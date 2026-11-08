@@ -9,6 +9,10 @@ Use the full session to supply only the earlier facts needed to understand the a
 were unread. Honor requested brevity or form, including literal-only output, and stop when the request is answered. Do
 not disguise ordinary replies as JSON to bypass checks.
 
+Make every question or decision request complete in the message that asks it: restate the choice, its options and the
+facts separating them, even when an earlier reply gave them. Never make the reader scroll back, and never point to an
+option by a number or name from an earlier message.
+
 Explain choices through who acts, what changes, scope, and material tradeoffs before internal rationale.
 
 ### Source fidelity

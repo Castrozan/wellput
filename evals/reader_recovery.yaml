@@ -353,3 +353,19 @@ tests:
     assertions:
       llm_judge:
         - "Reproduces the supplied quoted sentence verbatim including its em dash, then explains in one plain sentence that there are at most three attempts, without treating punctuation as a defect."
+
+  - name: recovery_restates_an_open_decision_where_it_asks
+    failure_mode: missing_context
+    skill_path: skills/wellput/SKILL.md
+    extra_skill_paths:
+      - skills/wellput/references/interactive-communication.md
+    prompt: |
+      Earlier in this session you compared where the speech gate could run. Option 1 is a local rules file: no new
+      process, and it scored 32 of 39 on the test set. Option 2 is a hosted API: 345 ms, untested on the test set, and
+      the text leaves the machine. I then asked an unrelated build question, which is now answered. Write your closing
+      message for this turn. I still have not chosen where the speech gate runs, and I can only see this latest message.
+    model: haiku
+    no_tools: true
+    assertions:
+      llm_judge:
+        - "Asks for the speech-gate choice and states both options with what separates them (no new process and 32 of 39 versus 345 ms with text leaving the machine), so the choice can be made from this message alone; it does not merely say a pick is still needed or refer to option 1 without saying what it is."
