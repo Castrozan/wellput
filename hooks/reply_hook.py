@@ -9,16 +9,22 @@ sys.path.insert(0, str(PLUGIN_ROOT / "hooks/rules"))
 sys.path.insert(0, str(PLUGIN_ROOT / "hooks/vendor"))
 
 
+def skill_body():
+    skill = (PLUGIN_ROOT / "skills/wellput/SKILL.md").read_text(encoding="utf-8")
+    return re.sub(r"\A---\n.*?\n---\n", "", skill, flags=re.DOTALL).strip()
+
+
 def session_instructions():
     from reply_format_instructions import expand_reply_format_instructions
 
     policy = PLUGIN_ROOT / "skills/wellput/references/interactive-communication.md"
     text = expand_reply_format_instructions(policy.read_text(encoding="utf-8"))
-    return re.sub(
+    linked = re.sub(
         r"\[([^\]]+)\]\(([^)]+)\)",
         lambda match: f"{match[1]} ({(policy.parent / match[2].split('#')[0]).resolve()})",
         text,
     )
+    return f"{linked.rstrip()}\n\n{skill_body()}\n"
 
 
 def reply_violations(payload):

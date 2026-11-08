@@ -48,6 +48,17 @@ def test_session_events_render_the_current_contract(source, invoke, plugin_root)
     assert str(plugin_root / "skills/wellput/SKILL.md") in context
 
 
+@pytest.mark.parametrize("source", ["startup", "resume", "compact"])
+def test_every_session_event_carries_the_skill_policy_itself(source, invoke, plugin_root):
+    output = invoke({"hook_event_name": "SessionStart", "source": source})
+    context = output["hookSpecificOutput"]["additionalContext"]
+    skill = (plugin_root / "skills/wellput/SKILL.md").read_text(encoding="utf-8")
+    headings = [line for line in skill.splitlines() if line.startswith("### ")]
+    assert headings and all(heading in context for heading in headings)
+    assert "Make every question or decision request complete" in context
+    assert "description:" not in context
+
+
 @pytest.mark.parametrize("field", ["reply_text", "last_assistant_message"])
 def test_native_direct_reply_fields_trigger_a_repair(field, invoke):
     output = invoke({"hook_event_name": "Stop", field: "PR #17 is ready."})
