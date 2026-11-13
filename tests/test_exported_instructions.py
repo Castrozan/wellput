@@ -63,9 +63,15 @@ def test_session_start_supplies_contract_without_selected_skill_bootstrap(plugin
         "label content, excluding headings",
         "combined label grace: 10 words",
         "**Done:**",
+        "em dash (—) or en dash (–)",
+        "\"sorry\"",
+        "\"let me\"",
+        "Link every merge request or pull request",
         str(plugin_root / "skills/wellput/SKILL.md"),
     ):
         assert required_rule in context
+    assert context.index("in order:") < context.index("**What is this session about?:**")
+    assert "in order:\n\nUse the smallest" not in context
     assert "{{reply_format}}" not in context
     assert "core.md" not in context
     assert "Publish local artifacts" not in context

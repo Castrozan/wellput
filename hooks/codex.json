@@ -7,7 +7,7 @@
             "type": "command",
             "command": "python3 \"${PLUGIN_ROOT}/hooks/reply_hook.py\"",
             "timeout": 5,
-            "additionalContextLimit": 5000
+            "additionalContextLimit": 8000
           }
         ]
       }
